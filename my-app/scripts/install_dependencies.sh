@@ -1,13 +1,10 @@
 #!/bin/bash
 
+# Set PATH variable explicitly
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/opt/remi/php81/root/usr/bin:/usr/local/bin:/root/bin"
+
 # Define log file path
 LOG_FILE="/var/log/laravel_commands.log"
-
-# Print current user and environment variables to log file
-echo "Current user: $(whoami)" >> "$LOG_FILE"
-echo "Current environment variables:" >> "$LOG_FILE"
-echo "PATH: $PATH" >> "$LOG_FILE"
-# Add any other relevant environment variables here
 
 # Function to execute command and log output
 execute_command() {
