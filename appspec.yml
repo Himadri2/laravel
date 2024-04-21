@@ -1,9 +1,9 @@
 version: 0.0
 os: linux
 files:
-  - source: /opt/codedeploy-agent/deployment-root/${AWS::CodeDeploy::DeploymentId}/deployment-archive/my-app/
+  - source: .
     destination: /var/www/html/laravel/
-file_exists_behavior: OVERWRITE
+#file_exists_behavior: OVERWRITE
 hooks:
   ApplicationStop:
     - location: my-app/scripts/stop_server.sh
