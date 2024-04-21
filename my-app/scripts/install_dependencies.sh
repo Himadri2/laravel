@@ -31,8 +31,8 @@ ls -la
 
 # Update composer dependencies
 echo "Updating composer dependencies..."
-/usr/local/bin/composer self-update
-/usr/local/bin/composer install --no-interaction --no-dev --optimize-autoloader
+composer self-update
+composer install --no-interaction --no-dev --optimize-autoloader
 
 # Check composer install exit status
 if [ $? -ne 0 ]; then
@@ -46,12 +46,12 @@ if grep -q 'APP_KEY=' .env; then
 else
     # Generate the application key
     echo "Generating APP_KEY..."
-    /opt/remi/php81/root/usr/bin/php artisan key:generate
+    php artisan key:generate
 fi
 
 # Run database migrations
 echo "Running database migrations..."
-/opt/remi/php81/root/usr/bin/php artisan migrate --force
+php artisan migrate --force
 
 # Check migration exit status
 if [ $? -ne 0 ]; then
