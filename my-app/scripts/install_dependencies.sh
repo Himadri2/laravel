@@ -3,6 +3,11 @@
 # Define log file path
 LOG_FILE="/var/log/laravel_commands.log"
 
+# Print current environment variables and redirect to log file
+echo "Current environment variables:"
+echo "PATH: $PATH" >> "$LOG_FILE"
+# Add any other relevant environment variables here
+
 # Function to execute command and log output
 execute_command() {
     # Execute command and redirect output to log file
