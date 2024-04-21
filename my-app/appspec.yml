@@ -14,6 +14,9 @@ hooks:
       runas: root
       
   BeforeInstall:
+    - location: scripts/delay_before_install.sh  # Custom script for delay
+      timeout: 300
+      runas: root
     - location: scripts/install_dependencies.sh
       timeout: 300
       runas: root
