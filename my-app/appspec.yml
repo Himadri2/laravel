@@ -7,32 +7,32 @@ files:
     owner: root
     group: root
 #file_exists_behavior: OVERWRITE
-hooks:
-  ApplicationStop:
-    - location: scripts/stop_server.sh
-      timeout: 300
-      runas: root
+#hooks:
+#  ApplicationStop:
+ #   - location: scripts/stop_server.sh
+ #     timeout: 300
+ #     runas: root
       
-  BeforeInstall:
-    - location: scripts/delay_before_install.sh  # Custom script for delay
-      timeout: 300
-      runas: root
-    - location: scripts/install_dependencies.sh
-      timeout: 300
-      runas: root
-      sleep: 30
+ # BeforeInstall:
+ #   - location: scripts/delay_before_install.sh  # Custom script for delay
+ #     timeout: 300
+ #     runas: root
+ #   - location: scripts/install_dependencies.sh
+ #     timeout: 300
+ #     runas: root
+ #     sleep: 30
 
-  AfterInstall:
-    - location: scripts/after_install.sh
-      timeout: 300
-      runas: root
+ # AfterInstall:
+ #   - location: scripts/after_install.sh
+ #     timeout: 300
+ #     runas: root
 
-  ApplicationStart:
-    - location: scripts/start_server.sh
-      timeout: 300
-      runas: root
+ # ApplicationStart:
+ #   - location: scripts/start_server.sh
+ #     timeout: 300
+ #     runas: root
 
-  ValidateService:
-    - location: scripts/validate_service.sh
-      timeout: 300
-      runas: root
+ # ValidateService:
+ #   - location: scripts/validate_service.sh
+ #     timeout: 300
+ #     runas: root
