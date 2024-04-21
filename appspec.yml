@@ -1,7 +1,7 @@
 version: 0.0
 os: linux
 files:
-  - source: /
+  - source: /my-app
     destination: /var/www/html/laravel/
 file_exists_behavior: OVERWRITE
 hooks:
