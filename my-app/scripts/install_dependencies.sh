@@ -3,8 +3,9 @@
 # Define log file path
 LOG_FILE="/var/log/laravel_commands.log"
 
-# Print current environment variables and redirect to log file
-echo "Current environment variables:"
+# Print current user and environment variables to log file
+echo "Current user: $(whoami)" >> "$LOG_FILE"
+echo "Current environment variables:" >> "$LOG_FILE"
 echo "PATH: $PATH" >> "$LOG_FILE"
 # Add any other relevant environment variables here
 
