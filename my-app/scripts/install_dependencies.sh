@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/opt/remi/php81/root/usr/bin/php
 
 # Define log file path
 LOG_FILE="/var/log/laravel_commands.log"
