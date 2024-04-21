@@ -1,8 +1,21 @@
 #!/bin/bash
 
+# Define log output directory
+LOG_DIR="/var/log/script1_logs"
+mkdir -p "$LOG_DIR"
+
+# Set log file name with current timestamp
+LOG_FILE="$LOG_DIR/script1_log_$(date +'%Y-%m-%d_%H-%M-%S').txt"
+
+# Redirect all output to the log file
+exec > "$LOG_FILE" 2>&1
+
 # Define the directory path
 ls -la
 DIRECTORY="/var/www/html/laravel/"
+
+# Print the current directory location
+echo "Current Directory: $(pwd)"
 
 # Navigate to the directory
 cd "$DIRECTORY"
