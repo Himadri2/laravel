@@ -3,6 +3,9 @@ os: linux
 files:
   - source: /
     destination: /var/www/html/laravel/
+    permissions: '755'
+    owner: root
+    group: root
 #file_exists_behavior: OVERWRITE
 hooks:
   ApplicationStop:
