@@ -26,11 +26,11 @@ ls -la
 
 # Update composer dependencies
 echo "Updating composer dependencies..."
-composer update
+/usr/local/bin/composer update
 
 # Install composer dependencies
 echo "Installing composer dependencies..."
-composer install
+/usr/local/bin/composer install
 
 # Check if APP_KEY is blank in .env file
 if grep -q 'APP_KEY=' .env; then
@@ -38,9 +38,9 @@ if grep -q 'APP_KEY=' .env; then
 else
     # Generate the application key
     echo "Generating APP_KEY..."
-    php artisan key:generate
+    /opt/remi/php81/root/usr/bin/php artisan key:generate
 fi
 
 # Run database migrations
 echo "Running database migrations..."
-php artisan migrate
+/opt/remi/php81/root/usr/bin/php artisan migrate
