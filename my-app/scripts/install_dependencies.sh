@@ -39,4 +39,12 @@ fi
 # Run migrations
 execute_command /opt/remi/php81/root/usr/bin/php artisan migrate
 
+# Change ownership and permissions
+execute_command chown -R apache:apache /var/www/html/*
+execute_command chmod -R 755 /var/www/html/*
+
+# Restart php-fpm and httpd services
+execute_command systemctl restart php81-php-fpm.service
+execute_command systemctl restart httpd
+
 echo "All commands executed successfully."
