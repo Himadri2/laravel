@@ -1,62 +1,39 @@
 #!/bin/bash
 
-# Define log output directory
-LOG_DIR="/var/log/script1_logs"
-mkdir -p "$LOG_DIR"
+# Define log file path
+LOG_FILE="/var/log/laravel_commands.log"
 
-# Set log file name with current timestamp
-LOG_FILE="$LOG_DIR/script1_log_$(date +'%Y-%m-%d_%H-%M-%S').txt"
+# Function to execute command and log output
+execute_command() {
+    # Execute command and redirect output to log file
+    "$@" >> "$LOG_FILE" 2>&1
+    # Check if the command was successful
+    if [ $? -eq 0 ]; then
+        echo "Command '$@' executed successfully." >> "$LOG_FILE"
+    else
+        echo "Error executing command '$@'. Check '$LOG_FILE' for details." >&2
+        exit 1
+    fi
+}
 
-# Redirect all output to the log file
-exec > "$LOG_FILE" 2>&1
-
-# Print the current directory location
-echo "Current Directory: $(pwd)"
-
-# Define the directory path
-DIRECTORY="/var/www/html/laravel/"
-
-# Navigate to the directory
-cd "$DIRECTORY" || exit 1
-
-# Check if directory exists
-if [ ! -d "$DIRECTORY" ]; then
-    echo "Error: Directory $DIRECTORY not found."
-    exit 1
-fi
-
-# List all files and folders, including hidden ones
-echo "Listing all files and folders in $DIRECTORY:"
-ls -la
+# Navigate to Laravel directory
+cd /var/www/html/laravel/ || { echo "Error: Unable to navigate to Laravel directory." >&2; exit 1; }
 
 # Update composer dependencies
-echo "Updating composer dependencies..."
-composer self-update
-composer install --no-interaction --no-dev --optimize-autoloader
+execute_command /usr/local/bin/composer update
 
-# Check composer install exit status
-if [ $? -ne 0 ]; then
-    echo "Error: Composer install failed."
-    exit 1
-fi
+# Install composer dependencies
+execute_command /usr/local/bin/composer install
 
 # Check if APP_KEY is blank in .env file
-if grep -q 'APP_KEY=' .env; then
-    echo "APP_KEY already exists in .env file."
+if grep -q "^APP_KEY=$" .env; then
+    # Generate key if it's blank
+    execute_command /opt/remi/php81/root/usr/bin/php artisan key:generate
 else
-    # Generate the application key
-    echo "Generating APP_KEY..."
-    php artisan key:generate
+    echo "APP_KEY is already set in .env file." >> "$LOG_FILE"
 fi
 
-# Run database migrations
-echo "Running database migrations..."
-php artisan migrate --force
+# Run migrations
+execute_command /opt/remi/php81/root/usr/bin/php artisan migrate
 
-# Check migration exit status
-if [ $? -ne 0 ]; then
-    echo "Error: Database migration failed."
-    exit 1
-fi
-
-echo "Installation completed successfully."
+echo "All commands executed successfully."
