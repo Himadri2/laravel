@@ -3,7 +3,7 @@ os: linux
 files:
   - source: /
     destination: /var/www/html/laravel/
-    runas: root
+file_exists_behavior: OVERWRITE
 hooks:
   ApplicationStop:
     - location: scripts/stop_server.sh
