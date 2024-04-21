@@ -20,20 +20,20 @@ execute_command() {
 cd /var/www/html/laravel/ || { echo "Error: Unable to navigate to Laravel directory." >&2; exit 1; }
 
 # Update composer dependencies
-execute_command /usr/bin/composer update
+execute_command composer update
 
 # Install composer dependencies
-execute_command /usr/bin/composer install
+execute_command composer install
 
 # Check if APP_KEY is blank in .env file
-#if grep -q "^APP_KEY=$" .env; then
+if grep -q "^APP_KEY=$" .env; then
     # Generate key if it's blank
-#    execute_command /usr/bin/php81 artisan key:generate
-#else
-#    echo "APP_KEY is already set in .env file." >> "$LOG_FILE"
-#fi
+    execute_command php artisan key:generate
+else
+    echo "APP_KEY is already set in .env file." >> "$LOG_FILE"
+fi
 
 # Run migrations
-#execute_command /usr/bin/php81 artisan migrate
+execute_command php artisan migrate
 
 echo "All commands executed successfully."
