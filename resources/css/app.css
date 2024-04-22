@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.text-first{
+color: #43db80;
+}
+.text-second{
+  color: #4dba87;
+}
+.bg-first{
+  background-color: #43db80;
+}
+.bg-second{
+  background-color: #4dba87;
+}
+.border-first{
+  --tw-border-opacity: 1;
+  border-color: #43db80;
+}

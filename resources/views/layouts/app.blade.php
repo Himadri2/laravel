@@ -1,213 +1,108 @@
 <!doctype html>
-<html lang="en">
-  <head>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Bootstrap core CSS -->
-    <link href="https://getbootstrap.com/docs/4.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- Fonts -->
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="icon" href="https://www.google.com/url?sa=i&url=https%3A%2F%2Ficons-for-free.com%2Fcart%2Becommerce%2Bshop%2Bicon-1320166083122274571%2F&psig=AOvVaw2_4410cN2jnrmeFPNRJIFi&ust=1624431066987000&source=images&cd=vfe&ved=0CAcQjRxqFwoTCKCJ47zTqvECFQAAAAAdAAAAABAE">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
+<body class="bg-gray-200">
+    <div id="app">
+        <!-- <nav class="navbar navbar-expand-md navbar-light bg-gray-700 shadow-sm flex text-white">
+            <div class="flex">
+                <a class="text-xl text-white m-1" href="{{route('home')}}">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                  </svg>
+                </a>
 
-    <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-      }
+                  <a href="{{route('product.create')}}" class="text-xl mx-2">add</a>
+                  <a href="{{route('order')}}" class="text-xl mx-2">order</a>
+                  <a href="{{route('about')}}" class="text-xl mx-2">contact us</a>
+                  <div>
+                    @auth
+                    <cart-component user-id="{{Auth::user()->id}}">
+                    @endauth
+                  </div>
+                   @auth
+                   <div>
+                    @auth
+                    <notifications-component user-id="{{Auth::user()->id}}"/>
+                    @endauth
+                   </div>
+                   @endauth
+               </ul>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="flex collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto">
+                        @guest
+                            @if (Route::has('login'))
+                                <li class="nav-item">
+                                    <a class="text-xl text-white mx-1" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                </li>
+                            @endif
 
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
+                            @if (Route::has('register'))
+                                <li class="nav-item">
+                                    <a class="text-xl text-white mx-1" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                </li>
+                            @endif
+                        @else
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="text-xl text-white mx-1 dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    {{ Auth::user()->name }}
+                                </a>
 
-      /* GLOBAL STYLES
-      -------------------------------------------------- */
-      /* Padding below the footer and lighter body text */
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                    </a>
 
-      body {
-        padding-top: 3rem;
-        padding-bottom: 3rem;
-        color: #5a5a5a;
-      }
-
-
-      /* CUSTOMIZE THE CAROUSEL
-      -------------------------------------------------- */
-
-      /* Carousel base class */
-      .carousel {
-        margin-bottom: 4rem;
-      }
-      /* Since positioning the image, we need to help out the caption */
-      .carousel-caption {
-        bottom: 3rem;
-        z-index: 10;
-      }
-
-      /* Declare heights because of positioning of img element */
-      .carousel-item {
-        height: 32rem;
-      }
-      .carousel-item > img {
-        position: absolute;
-        top: 0;
-        left: 0;
-        min-width: 100%;
-        height: 32rem;
-      }
-
-
-      /* MARKETING CONTENT
-      -------------------------------------------------- */
-
-      /* Center align the text within the three columns below the carousel */
-      .marketing .col-lg-4 {
-        margin-bottom: 1.5rem;
-        text-align: center;
-      }
-      .marketing h2 {
-        font-weight: 400;
-      }
-      .marketing .col-lg-4 p {
-        margin-right: .75rem;
-        margin-left: .75rem;
-      }
-
-
-      /* Featurettes
-      ------------------------- */
-
-      .featurette-divider {
-        margin: 5rem 0; /* Space out the Bootstrap <hr> more */
-      }
-
-      /* Thin out the marketing headings */
-      .featurette-heading {
-        font-weight: 300;
-        line-height: 1;
-        letter-spacing: -.05rem;
-      }
-      /* footer */
-      .footer{    
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-      }
-      /* RESPONSIVE CSS
-      -------------------------------------------------- */
-
-      @media (min-width: 40em) {
-        /* Bump up size of carousel content */
-        .carousel-caption p {
-          margin-bottom: 1.25rem;
-          font-size: 1.25rem;
-          line-height: 1.4;
-        }
-
-        .featurette-heading {
-          font-size: 50px;
-        }
-      }
-
-      @media (min-width: 62em) {
-        .featurette-heading {
-          margin-top: 7rem;
-        }
-      }
-
-    </style>
-  </head>
-  <body>
-    <header>
-
-
-  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <a class="navbar-brand" href="{{ url('/') }}">
-        {{ config('app.name', 'Laravel') }}
-    </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-      <ul class="navbar-nav mr-auto">
-        <!-- Authentication Links -->
-        @if (Route::has('login'))
-          @guest
-              <li class="nav-item">
-                  <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-              </li>
-              @if (Route::has('register'))
-                  <li class="nav-item">
-                      <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                  </li>
-              @endif
-          @else
-              <li class="nav-item">
-                <a href="{{ route('rooms.index') }}" class="nav-link">Rooms</a>
-              </li>
-              <li class="nav-item">
-                <a href="{{ route('room_types.index') }}" class="nav-link">Room Types</a>
-              </li>
-              <li class="nav-item">
-                <a href="{{ route('bookings.index') }}" class="nav-link">Bookings</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="{{ route('logout') }}"
-                      onclick="event.preventDefault();
-                      document.getElementById('logout-form').submit();">
-                      {{ __('Logout') }}
-                  </a>
-
-                  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                      @csrf
-                  </form>
-              </li>
-              
-          @endguest
-        @endif
-      </ul>
-      <form class="form-inline mt-2 mt-md-0">
-        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-      </form>
-    </div>
-  </nav>
-</header>
-
-<main role="main">
-    <div class="container mt-5">
-        <div class="row">
-            <!-- Buttons -->
-            @yield('buttons')
-        </div>
-    </div>
-    <div class="container mt-1">
-        <div class="row">
-            <!-- Content -->
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+                                </div>
+                            </li>
+                        @endguest
+                    </ul>
+                </div>
+            </div>
+        </nav> --}} -->
+       <div>
+         <form id="search-form" action="{{route('product.search')}}" class="hidden">
+          <input type="text" id="searchQuery" name="searchQuery" required class="text-gray-700 h-4/5 my-auto w-1/2 rounded border-2 border-gray-500 text-xl py-1 px-3 mx-1">
+          <select name="category" id="category" required class="my-auto bg-gray-700 text-xl text-white">
+            <option value="all" selected>all</option>
+             @isset($categories)
+              @foreach ($categories as $category)
+               <option value="{{$category->id}}">{{$category->name}}</option>
+              @endforeach
+             @endisset
+            </select>
+         </form>
+         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+            @csrf
+         </form>
+         <navigation-component @auth user-id="{{Auth::user()->id}}"@endauth />
+       </div>
+        <main class="">
             @yield('content')
-        </div>
+        </main>
     </div>
-</main>
-
-<!-- FOOTER -->
-  <footer class="bg-dark text-white footer">
-    <p class="float-right mr-5"><a href="#">Back to top</a></p>
-    <p class="ml-5">&copy; 2017-2019 Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
-  </footer>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    {{-- <script>window.jQuery || document.write('<script src="https://getbootstrap.com/docs/4.3/assets/js/vendor/jquery-slim.min.js"><\/script>')</script><script src="https://getbootstrap.com/docs/4.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script> --}}
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-  </body>
+</body>
 </html>
