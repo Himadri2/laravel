@@ -2,75 +2,61 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Models\User;
+use App\Http\Requests\UserRequest;
+use App\Models\Cart;
+use App\Models\Location;
 use App\Models\Product;
+use App\Models\User;
+use App\Models\Wishlist;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use stdClass;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-  public function __construct(){
-
-    $this->middleware('auth');
-
-  }
-
-  public function navigation(Request $request)
-  {
-    $categories=Category::all();
-    if($request->userId){
-      $user=User::find($request->userId);
-      $notifications=$user->unreadNotifications;
+    public function index(){
+        $carts = Cart::where('user_id', Auth::user()->id)->get();
+        $wishlists = Wishlist::where('user_id', Auth::user()->id)->get();
+        $locations = Location::where('user_id', Auth::user()->id)->get();
+        return view('users.index', compact('carts','wishlists','locations'));
     }
-    else{
-      $user=null;
-      $notifications=[];
+
+    public function edit($id){
+        $user = User::find($id);
+        return view('users.edituser', compact('user'));
     }
-    return response()->json(['user'=>$user,'categories'=>$categories,'notifications'=>$notifications]);
-  }
 
-  public function notifications(Request $request)
-  {
-    $user=User::find($request->userId);
-    $notifications=$user->notifications;
-    return response()->json(['notifications'=>$notifications]);
-  }
-
-  public function report(Request $request)
-  {
-   DB::table('reports')->insert(['user_id'=>$request->userId,'product_id'=>$request->productId,'reportText'=>$request->reportText]);
-   return response()->json(['message'=>'report was succesfull']);
-  }
-
-  public function readNotification(Request $request)
-  {
-   $user=User::find($request->userId);
-   $user->notifications($request->notificationId)->markAsRead;
-  }
-
-  public function reports()
-  {
-    $reportedData=DB::table('reports')->latest();
-    $reports=array();
-    foreach ($reportedData as $data)
-     {
-      $report=new stdClass;
-      $report->id=$data->id;
-      $report->date=$data->created_at;
-      $report->product=Product::find($data->product_id);
-      $report->user=User::find($data->user_id);
-      array_push($reports,$report);
+    public function update($id, Request $request){
+        $user = User::find($id);
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone_number' => $request->phone
+        ]);
+        return redirect()->back()->with('success', 'Your Information Updated Successfully !');
     }
-    return view('reports',['reports'=>$reports]);
-  }
 
-  public function removeReport($id)
-  {
-   DB::table('reports')->where('id',$id)->delete();
-   return redirect()->back()->with(['reportMessage'=>'report removed successfully']);
-  }
+    public function delete($id){
+       User::findorFail($id)->delete();
+        return redirect()->route('login');
+    }
 
+    public function changepassword($id){
+        $user = User::find($id);
+        return view('users.changepassword', compact('user'));
+    }
+
+    public function donechangepassword($id, Request $request){
+        $user = User::find($id);
+
+        $this->validate($request, [
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        $current_password = Hash::make($request->current_password);
+            $user->update([
+                'password' => Hash::make($request->password),
+            ]);
+            return redirect()->back()->with('success', 'Your Password Updated Successfully !');
+    }
 }

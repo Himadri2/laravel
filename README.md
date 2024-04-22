@@ -1,49 +1,70 @@
-# Ecommerce project
+# Fashion-Shop
 
-**make sure to configure php configuration file(php.ini) upload_max_filesize!!**
+Responsive Fashion Shop website is an e-commerce site with Laravel 10.x.
 
-![ecommerce](https://user-images.githubusercontent.com/78965149/183610848-2dce1449-40a4-41f0-8acd-ed3a8ca60550.png)
+## Getting Started
 
-## Installation
+- Getting all the products from the database and showing them on our site with filtration by the category or brand to which they belong, ordered by created at, or its price.
+- The user can add any product to his cart list and see the total price that is calculated by considering the quantity ordered, after adding the product to the cart list, the user can change the quantity ordered as he likes.
+- The user can add any product to his wishlist and then add it to his cart list or choose to delete the product from his wishlist, all handled by the database.
+- Use the Laravel/UI package.
+- Handel authentication.
+- Create a simple UI for users with HTML, CSS, JS, and Bootstrap.
+- The site is responsive.
+- Use Eloquent Factories to store fake data.
 
-clone the project `git clone https://github.com/ezra02/ecommerce`
+### Tools
 
-install componser dependencies `composer update`
+- Laravel 10.x.
+- HTML.
+- CSS.
+- JS.
+- Bootstrap.
 
-copy .env files `cp .env.example .env`
+### Installing
 
-generate key `php artisan key:generate`
+A step by step series of examples that tell you how to get a development
+environment running
 
-migrate database `php artisan migrate`
+clone Repository in your local pc
 
-start server `php artisan serve`
+    git clone https://github.com/Breksam/Fashion-Shop.git 
 
-## Installation using docker
+run on your cmd or terminal
 
-`docker-compose build ecommerce`
+    composer install
 
-`docker-compose up -d`
+copy .env.example file to .env on the root folder
 
-`docker-compose exec ecommerce php artisan key:generate`
+    copy .env.example .env
 
-## Contributing
+then open your .env file and change the database name (DB_DATABASE) to whatever you have, username (DB_USERNAME) and password (DB_PASSWORD) field correspond to your configuration.
 
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+open the terminal in the project then:
 
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
+run
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+    php artisan key:generate
+run
 
-<!-- LICENSE -->
-## License
+    php artisan migrate
+run
 
-Distributed under the MIT License.
+    php artisan serve
 
-<!-- CONTACT -->
-## Contact
-Contact me here or by email ezrafikadu02@gmail.com
+## Running the tests
+
+Now you can try the site locally on your browser.
+
+open the terminal in the project then:
+
+run
+
+    php artisan serve
+
+
+## Authors
+
+  - **Breksam Hassan Elsokkary** - (https://github.com/Breksam)
+
+

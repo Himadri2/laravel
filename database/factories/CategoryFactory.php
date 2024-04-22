@@ -2,27 +2,27 @@
 
 namespace Database\Factories;
 
-use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Category>
+ */
 class CategoryFactory extends Factory
 {
     /**
-     * The name of the factory's corresponding model.
-     *
-     * @var string
-     */
-    protected $model = Category::class;
-
-    /**
      * Define the model's default state.
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
+        $category_name = $this->faker->unique()->words($nb=2 ,$asText=true );
+        $slug = Str::slug($category_name);
         return [
-            //
+            'name' => Str::title($category_name),
+            'slug' =>$slug,
+            'image' =>$this->faker->numberBetween(1,4).'.jpg',
         ];
     }
 }

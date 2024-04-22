@@ -1,86 +1,89 @@
 <?php
 
-use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AppController;
 use App\Http\Controllers\CartController;
-use App\Http\Controllers\CommentController;
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\SocialiteController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\LocationController;
+use App\Http\Controllers\mailController;
+use App\Http\Controllers\ShopController;
 use App\Http\Controllers\UserController;
-use App\Models\Product;
-use App\Models\User;
+use App\Http\Controllers\WishlistController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group. Make something great!
 |
 */
 
-Route::get('/', function () {
-  $products=Product::latest()->take(100)->get();
-  return view('home',['products'=>$products]);
-})->name('home');
+Route::controller(AppController::class)->group(function(){
+    Route::get('/','index')->name('app.index');
+    Route::get('/about-us','about')->name('app.about');
+    Route::get('/contact-us','contact')->name('app.contact');    
+});
+Route::post('/contact-us/sendMail',[mailController::class, 'store'])->name('mail.store');
+Route::get('/categoryProducts/{id}',[CategoryController::class, 'index'])->name('app.categoryProducts');
+
+
+
+
+
+
+Route::get('/shop',[ShopController::class, 'index'])->name('shop.index');
+Route::get('/product/{slug}',[ShopController::class, 'productDetails'])->name('shop.productDetails');
+
+
+
+
 
 Auth::routes();
 
-Route::prefix('product')->group(function () {
-    Route::get('create',[ProductController::class,'create'])->name('product.create');
-    Route::post('create',[ProductController::class,'store'])->name('product.store');
-    Route::get('edit/{product}',[ProductController::class,'edit'])->name('product.edit');
-    Route::patch('update',[ProductController::class,'update'])->name('product.update');
-    Route::get('{product}/show',[ProductController::class,'show'])->name('product.show');
-    Route::delete('delete/{product}',[ProductController::class,'destroy'])->name('product.delete');
-    Route::get('search',[ProductController::class,'search'])->name('product.search');
-    Route::get('data',[ProductController::class,'data']);
-    Route::get('savedproducts',[ProductController::class,'savedProducts']);
+Route::middleware(['auth'])->group(function () {
+
+    Route::controller(UserController::class)->group(function(){
+        Route::get('/my-account', 'index')->name('user.index');
+        Route::get('/my-account/edit/{id}', 'edit')->name('user.edit');
+        Route::put('/my-account/update/{id}', 'update')->name('user.update');
+        Route::delete('/my-account/delete/{id}', 'delete')->name('user.delete');
+        Route::get('/my-account/changepassword/{id}', 'changepassword')->name('user.changepassword');
+        Route::put('/my-account/donechangepassword/{id}', 'donechangepassword')->name('user.donechangepassword');
+   });
+
+
+
+    Route::controller(CartController::class)->group(function(){
+        Route::get('/carts', 'index')->name('cart.index');
+        Route::post('/carts/store/', 'store')->name('carts.store');
+        Route::put('/cart/update', 'update')->name('cart.update');
+        Route::delete('/cart/destroy/{id}', 'destroy')->name('cart.destroy');
+        Route::delete('/cart/clear', 'clear')->name('cart.clear');
+   });
+
+   Route::controller(WishlistController::class)->group(function(){
+        Route::get('/wishlist','index')->name('wishlist');
+        Route::post('/wishlist/store','store')->name('wishlist.store');
+        Route::post('/wishlist/storetocart','storeToCart')->name('wishlist.storeToCart');
+        Route::delete('/wishlist/destroy/{id}','destroy')->name('wishlist.destroy');
+    });
+
+    Route::controller(LocationController::class)->group(function(){
+        Route::get('/location/create','create')->name('location.create');
+        Route::post('/location/store','store')->name('location.store');
+        Route::put('/location/update/{id}','update')->name('location.update');
+        Route::get('/location/edit/{id}','edit')->name('location.edit');
+        Route::delete('/location/destroy/{id}','destroy')->name('location.destroy');
+    });
 });
 
-Route::prefix('profile')->group(function(){
-  Route::get('create',[ProfileController::class,'create'])->name('profile.create');
-  Route::post('store',[ProfileController::class,'store'])->name('profile.store');
-  Route::get('edit',[ProfileController::class,'edit'])->name('profile.edit');
-  Route::post('update',[ProfileController::class,'update'])->name('profile.update');
+
+
+Route::middleware(['auth', 'auth_admin'])->group(function () {
+    Route::get('/dashboard',[AdminController::class, 'index'])->name('admin.index');
 });
-
-Route::get('products',[ProductController::class,'index']);
-Route::get('/products/{id}',[CategoryController::class,'categoryProducts'])->name('product.specificproduct');
-
-Route::get('orders',[OrderController::class,'index'])->name('orders');
-Route::get('order',[OrderController::class,'create'])->name('order');
-Route::post('order',[OrderController::class,'store']);
-Route::post('order/complete',[OrderController::class,'destroy'])->name('order.complete');
-
-Route::get('cartitems',[CartController::class,'cartItems']);
-Route::get('cart/product',[CartController::class,'productInCart']);
-Route::post('cart/addproduct',[CartController::class,'addToCart']);
-Route::post('cart/removeproduct',[CartController::class,'removeFromCart']);
-
-Route::get('notifications',[UserController::class,'notifications']);
-Route::post('notification/category',[UserController::class,'notificationForm']);
-Route::post('notification/read',[UserController::class,'readNotification']);
-
-Route::post('report',[UserController::class,'report']);
-Route::post('report/remove',[UserController::class,'removeReport'])->name('report.remove');
-Route::get('reports',[AdminController::class,'reports']);
-Route::get('/navigation',[UserController::class,'navigation']);
-Route::get('categories',[CategoryController::class,'index']);
-Route::get('category/product',[CategoryController::class,'categoryProducts']);
-
-Route::view('about','about')->name('about');
-
-Route::get('comments',[CommentController::class,'index']);
-Route::post('comment/store',[CommentController::class,'store']);
-Route::patch('comment/update',[CommentController::class,'update']);
-Route::delete('comment/delete',[CommentController::class,'destroy']);
-
-//socialite login routes
-
-Route::get('/auth/{provider}/redirect',[SocialiteController::class,'redirect']);
-Route::get('/auth/{provider}/callback',[SocialiteController::class,'callback']);

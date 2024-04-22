@@ -8,12 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class Cart extends Model
 {
     use HasFactory;
-    public function user()
-    {
-      return $this->belongsTo(User::class);  
+
+    protected $fillable = [
+        'quantity_ordered',
+        'total_price',
+        'user_id',
+        'product_id'
+    ];
+
+    public function users(){
+        return $this->hasMany(User::class,'user_id');
     }
-    public function products()
-    {
-      return $this->belongsToMany(Product::class);  
+
+    public function product(){
+        return $this->belongsTo(Product::class,'product_id');
     }
 }
