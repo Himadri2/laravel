@@ -1,224 +1,213 @@
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
-<head>
+<html lang="en">
+  <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="Construction Html5 Template">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <meta name="author" content="Themefisher">
-    <meta name="generator" content="Themefisher Constra HTML Template v1.0">
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('images/favicon.png') }}" />
-    <link rel="stylesheet" href="{{ asset('plugins/themefisher-font/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('plugins/bootstrap/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('plugins/animate/animate.css') }}">
-    <link rel="stylesheet" href="{{ asset('plugins/slick/slick.css') }}">
-    <link rel="stylesheet" href="{{ asset('plugins/slick/slick-theme.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>{{ config('app.name', 'Laravel') }}</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://getbootstrap.com/docs/4.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- Styles -->
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+
+      /* GLOBAL STYLES
+      -------------------------------------------------- */
+      /* Padding below the footer and lighter body text */
+
+      body {
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+        color: #5a5a5a;
+      }
+
+
+      /* CUSTOMIZE THE CAROUSEL
+      -------------------------------------------------- */
+
+      /* Carousel base class */
+      .carousel {
+        margin-bottom: 4rem;
+      }
+      /* Since positioning the image, we need to help out the caption */
+      .carousel-caption {
+        bottom: 3rem;
+        z-index: 10;
+      }
+
+      /* Declare heights because of positioning of img element */
+      .carousel-item {
+        height: 32rem;
+      }
+      .carousel-item > img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        min-width: 100%;
+        height: 32rem;
+      }
+
+
+      /* MARKETING CONTENT
+      -------------------------------------------------- */
+
+      /* Center align the text within the three columns below the carousel */
+      .marketing .col-lg-4 {
+        margin-bottom: 1.5rem;
+        text-align: center;
+      }
+      .marketing h2 {
+        font-weight: 400;
+      }
+      .marketing .col-lg-4 p {
+        margin-right: .75rem;
+        margin-left: .75rem;
+      }
+
+
+      /* Featurettes
+      ------------------------- */
+
+      .featurette-divider {
+        margin: 5rem 0; /* Space out the Bootstrap <hr> more */
+      }
+
+      /* Thin out the marketing headings */
+      .featurette-heading {
+        font-weight: 300;
+        line-height: 1;
+        letter-spacing: -.05rem;
+      }
+      /* footer */
+      .footer{    
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+      }
+      /* RESPONSIVE CSS
+      -------------------------------------------------- */
+
+      @media (min-width: 40em) {
+        /* Bump up size of carousel content */
+        .carousel-caption p {
+          margin-bottom: 1.25rem;
+          font-size: 1.25rem;
+          line-height: 1.4;
+        }
+
+        .featurette-heading {
+          font-size: 50px;
+        }
+      }
+
+      @media (min-width: 62em) {
+        .featurette-heading {
+          margin-top: 7rem;
+        }
+      }
+
+    </style>
+  </head>
+  <body>
+    <header>
+
+
+  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="{{ url('/') }}">
+        {{ config('app.name', 'Laravel') }}
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav mr-auto">
+        <!-- Authentication Links -->
+        @if (Route::has('login'))
+          @guest
+              <li class="nav-item">
+                  <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+              </li>
+              @if (Route::has('register'))
+                  <li class="nav-item">
+                      <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                  </li>
+              @endif
+          @else
+              <li class="nav-item">
+                <a href="{{ route('rooms.index') }}" class="nav-link">Rooms</a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('room_types.index') }}" class="nav-link">Room Types</a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('bookings.index') }}" class="nav-link">Bookings</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="{{ route('logout') }}"
+                      onclick="event.preventDefault();
+                      document.getElementById('logout-form').submit();">
+                      {{ __('Logout') }}
+                  </a>
+
+                  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                      @csrf
+                  </form>
+              </li>
+              
+          @endguest
+        @endif
+      </ul>
+      <form class="form-inline mt-2 mt-md-0">
+        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </div>
+  </nav>
+</header>
+
+<main role="main">
+    <div class="container mt-5">
+        <div class="row">
+            <!-- Buttons -->
+            @yield('buttons')
+        </div>
+    </div>
+    <div class="container mt-1">
+        <div class="row">
+            <!-- Content -->
+            @yield('content')
+        </div>
+    </div>
+</main>
+
+<!-- FOOTER -->
+  <footer class="bg-dark text-white footer">
+    <p class="float-right mr-5"><a href="#">Back to top</a></p>
+    <p class="ml-5">&copy; 2017-2019 Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+  </footer>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    {{-- <script>window.jQuery || document.write('<script src="https://getbootstrap.com/docs/4.3/assets/js/vendor/jquery-slim.min.js"><\/script>')</script><script src="https://getbootstrap.com/docs/4.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script> --}}
+    <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-    {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
-    @livewireStyles
-    @livewireScripts
-</head>
-
-<body id="body">
-    <section class="top-header">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4 col-xs-12 col-sm-4">
-                    <div class="contact-number">
-                        <i class="tf-ion-ios-telephone"></i>
-                        <span>{{ env('MY_PHONE_NUMBER') }}</span>
-                    </div>
-                </div>
-                <div class="col-md-4 col-xs-12 col-sm-4">
-                    <!-- Site Logo -->
-                    <div class="logo text-center">
-                        <a href="{{ url('/') }}">
-                            <svg width="135px" height="29px" viewBox="0 0 155 29" version="1.1"
-                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"
-                                    font-size="40" font-family="AustinBold, Austin" font-weight="bold">
-                                    <g id="Group" transform="translate(-108.000000, -297.000000)" fill="#000000">
-                                        <text id="AVIATO">
-                                            <tspan x="108.94" y="325">{{ config('app.name') }}</tspan>
-                                        </text>
-                                    </g>
-                                </g>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-md-4 col-xs-12 col-sm-4">
-                    <ul class="top-menu text-right list-inline">
-                        @auth
-                            <li class="dropdown cart-nav dropdown-slide">
-                                <a href="{{ route('cart') }}" class="dropdown-toggle" data-toggle="dropdown"
-                                    data-hover="dropdown"><i class="tf-ion-android-cart"></i>{{ __('Cart') }}</a>
-                                <div class="dropdown-menu cart-dropdown">
-                                    @livewire('menu-cart')
-                                    <ul class="text-center cart-buttons">
-                                        <li><a href="{{ route('cart') }}" class="btn btn-small">View Cart</a></li>
-                                        <li><a href="{{ route('checkout') }}"
-                                                class="btn btn-small btn-solid-border">Checkout</a></li>
-                                    </ul>
-                                </div>
-                            </li><!-- / Cart -->
-                        @endauth
-
-                        <!-- Search -->
-                        @livewire('menu-search-bar')
-
-                        <!-- Languages -->
-                        <li class="commonSelect">
-                            <select class="form-control">
-                                <option>EN</option>
-                                <option>DE</option>
-                                <option>FR</option>
-                                <option>ES</option>
-                            </select>
-                        </li><!-- / Languages -->
-
-                    </ul><!-- / .nav .navbar-nav .navbar-right -->
-                </div>
-            </div>
-        </div>
-    </section><!-- End Top Header Bar -->
-
-
-    <!-- Main Menu Section -->
-    <section class="menu">
-        <nav class="navbar navigation">
-            <div class="container">
-                <div class="navbar-header">
-                    <h2 class="menu-title">Main Menu</h2>
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
-                        aria-expanded="false" aria-controls="navbar">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-
-                </div><!-- / .navbar-header -->
-
-                <!-- Navbar Links -->
-                <div id="navbar" class="navbar-collapse collapse text-center">
-                    <ul class="nav navbar-nav">
-                        <li class="dropdown ">
-                            <a href="{{ url('/') }}">Home</a>
-                        </li>
-                        <li class="dropdown ">
-                            <a href="{{ route('shop') }}">Shop</a>
-                        </li>
-                        @auth()
-                            <li class="dropdown ">
-                                <a href="{{ route('user_profile') }}">Dashboard</a>
-                            </li>
-                            <li class="dropdown ">
-                                <a href="{{ route('cart') }}"> My Cart</a>
-                            </li>
-                        @endauth
-                        <li class="dropdown ">
-                            <a href="{{ route('contact_us') }}">Contact</a>
-                        </li>
-                        <li class="dropdown ">
-                            <a href="{{ route('about_us') }}">About</a>
-                        </li>
-                        <li class="dropdown ">
-                            <a href="{{ route('faq') }}">FAQ</a>
-                        </li>
-                        @guest()
-                            <li class="dropdown ">
-                                <a href="{{ route('login') }}">login</a>
-                            </li>
-                        @endguest
-                        @auth()
-                            {{-- {{ dd(auth()->user()) }} --}}
-                            @if (auth()->user()->isAdmin)
-                                <li class="dropdown ">
-                                    <a href="{{ route('admin.dashboard') }}">Admin</a>
-                                </li>
-                            @endif
-
-                            <li class="dropdown ">
-                                <a class="" href="{{ route('logout') }}"
-                                    onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
-                                </a>
-
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                    @csrf
-                                </form>
-                            </li>
-                        @endauth
-                    </ul><!-- / .nav .navbar-nav -->
-                </div>
-            </div><!-- / .container -->
-        </nav>
-    </section>
-
-    @yield('content')
-    <footer class="footer section text-center">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <ul class="social-media">
-                        <li>
-                            <a href="https://www.facebook.com/">
-                                <i class="tf-ion-social-facebook"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://www.instagram.com/">
-                                <i class="tf-ion-social-instagram"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://www.twitter.com/">
-                                <i class="tf-ion-social-twitter"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://www.pinterest.com//">
-                                <i class="tf-ion-social-pinterest"></i>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="footer-menu text-uppercase">
-                        <li>
-                            <a href="contact.html">CONTACT</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('shop') }}">SHOP</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('privacy') }}">PRIVACY POLICY</a>
-                        </li>
-                    </ul>
-                    <p class="copyright-text">Copyright &copy; 2021, Front-End by <a
-                            href="https://themefisher.com/">Themefisher</a> Back-End By
-                        <a href="https://github.com/tauseedzaman">Tauseed Zaman</a>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <script src="{{ asset('plugins/jquery/dist/jquery.min.js') }}"></script>
-    <script src="{{ asset('plugins/bootstrap/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js') }}"></script>
-    <script src="{{ asset('plugins/instafeed/instafeed.min.js') }}"></script>
-    <script src="{{ asset('plugins/ekko-lightbox/dist/ekko-lightbox.min.js') }}"></script>
-    <script src="{{ asset('plugins/syo-timer/build/jquery.syotimer.min.js') }}"></script>
-    <script src="{{ asset('plugins/slick/slick.min.js') }}"></script>
-    <script src="{{ asset('plugins/slick/slick-animation.min.js') }}"></script>
-    <script src="{{ asset('js/script.js') }}"></script>
-
-</body>
-
+  </body>
 </html>

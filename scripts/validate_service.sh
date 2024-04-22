@@ -1,6 +1,6 @@
 #!/bin/bash
 
-WEBSITE_URL="http://app.quixz.cloud/"
+WEBSITE_URL="http://app.hitch.zone"
 EXPECTED_RESPONSE_CODE=200
 
 # Fetch the website and store the HTTP response code
