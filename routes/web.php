@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\HomeController;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\AuthManager;
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\ForgetPasswordManager;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,11 +16,31 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/home', function () {
+    return view('Landing Page');
+})->name('home');
 
-Auth::routes();
+Route::get('/', [AuthManager::class, 'login'])
+->name('login');
+Route::post('/', [AuthManager::class, 'loginPost'])
+->name('login.post');
+Route::get('/Signup', [AuthManager::class, 'signup'])
+->name('signup');
+Route::post('/Signup', [AuthManager::class, 'signupPost'])
+->name('signup.post');
+Route::get('/logout', [AuthManager::class, 'logout'])
+->name('logout');
+Route::get('/forget-password', [ForgetPasswordManager::class, 'ForgetPassword'])
+->name('forget.password');
+Route::post('/forget-password', [ForgetPasswordManager::class, 'ForgetPasswordPost'])
+->name('forget.passwordPost');
+Route::get('/reset-password/{token}', [ForgetPasswordManager::class, 'resetPassword'])
+->name('reset.password');
+Route::post('/reset-password', [ForgetPasswordManager::class, 'resetPasswordPost'])
+->name('reset.password.post');
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
-Route::post('/home', [HomeController::class, 'vatCalculator'])->name('vat.calculator');
+Route::get('Duck Inc./bookings', [BookingController::class, 'Booking'])->name('bookings');
+Route::post('Duck Inc./bookings', [BookingController::class, 'BookingStore'])->name('bookings.store');
+Route::get('Duck Inc./bookings/{book}/edit', [BookingController::class, 'Edit'])->name('bookings.edit');
+Route::get('Duck Inc./Trips', [BookingController::class,'Trips'])->name('trips');
+Route::get('Duck Inc./Message', [BookingController::class,'Message'])->name('message');
