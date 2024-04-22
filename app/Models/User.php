@@ -21,7 +21,6 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'phone_number'
     ];
 
     /**
@@ -42,18 +41,4 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-
-    public function cart(){
-        return $this->belongsTo(Cart::class,'user_id');
-    }
-    
-    public function wishlist(){
-        return $this->belongsTo(Wishlist::class,'user_id');
-    }
-
-    public function location(){
-        return $this->belongsTo(Location::class,'user_id');
-    }
 }
-
