@@ -37,7 +37,6 @@ else
 fi
 
 # Run migrations
-execute_command /opt/remi/php81/root/usr/bin/php artisan migrate:fresh
 execute_command /opt/remi/php81/root/usr/bin/php artisan migrate
 
 # Change ownership and permissions

@@ -12,8 +12,6 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    protected $table = "users";
-
     /**
      * The attributes that are mass assignable.
      *
@@ -23,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'phone_number'
     ];
 
     /**
@@ -42,6 +41,19 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed',
     ];
+
+
+    public function cart(){
+        return $this->belongsTo(Cart::class,'user_id');
+    }
+    
+    public function wishlist(){
+        return $this->belongsTo(Wishlist::class,'user_id');
+    }
+
+    public function location(){
+        return $this->belongsTo(Location::class,'user_id');
+    }
 }
+
