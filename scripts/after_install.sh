@@ -1,30 +1,17 @@
 #!/bin/bash
 
-# Directory to backup
-backup_source="/var/www/html/laravel/"
+# Directory paths
+source_dir="/var/www/html/laravel"
+backup_dir="/var/www/html"
 
-# Destination directory for backup
-backup_destination="/var/www/html/laravel_bkp/"
+# Timestamp for the backup file
+timestamp=$(date +"%Y%m%d%H%M%S")
 
-# Create a timestamp for the backup filename
-timestamp=$(date +"%Y%m%d_%H%M%S")
+# Backup filename
+backup_file="laravel_backup_$timestamp.tar.gz"
 
-# Create the backup filename with timestamp
-backup_filename="laravel_backup_${timestamp}.tar.gz"
+# Create a tar archive of the Laravel folder
+tar -czf "$backup_dir/$backup_file" -C "$source_dir" .
 
-# Create the backup using tar
-tar -czf "${backup_destination}${backup_filename}" -C "${backup_source}" .
-
-# Check if the backup was created successfully
-if [ $? -eq 0 ]; then
-    echo "Backup created successfully: ${backup_filename}"
-else
-    echo "Failed to create backup"
-    exit 1
-fi
-
-# Optional: Clean up old backups if necessary
-
-# Exit with success status
-exit 0
+echo "Backup created: $backup_dir/$backup_file"
 
