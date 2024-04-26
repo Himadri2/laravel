@@ -1,70 +1,24 @@
-# Fashion-Shop
 
-Responsive Fashion Shop website is an e-commerce site with Laravel 10.x.
-
-## Getting Started
-
-- Getting all the products from the database and showing them on our site with filtration by the category or brand to which they belong, ordered by created at, or its price.
-- The user can add any product to his cart list and see the total price that is calculated by considering the quantity ordered, after adding the product to the cart list, the user can change the quantity ordered as he likes.
-- The user can add any product to his wishlist and then add it to his cart list or choose to delete the product from his wishlist, all handled by the database.
-- Use the Laravel/UI package.
-- Handel authentication.
-- Create a simple UI for users with HTML, CSS, JS, and Bootstrap.
-- The site is responsive.
-- Use Eloquent Factories to store fake data.
-
-### Tools
-
-- Laravel 10.x.
-- HTML.
-- CSS.
-- JS.
-- Bootstrap.
-
-### Installing
-
-A step by step series of examples that tell you how to get a development
-environment running
-
-clone Repository in your local pc
-
-    git clone https://github.com/Breksam/Fashion-Shop.git 
-
-run on your cmd or terminal
-
-    composer install
-
-copy .env.example file to .env on the root folder
-
-    copy .env.example .env
-
-then open your .env file and change the database name (DB_DATABASE) to whatever you have, username (DB_USERNAME) and password (DB_PASSWORD) field correspond to your configuration.
-
-open the terminal in the project then:
-
-run
-
-    php artisan key:generate
-run
-
-    php artisan migrate
-run
-
-    php artisan serve
-
-## Running the tests
-
-Now you can try the site locally on your browser.
-
-open the terminal in the project then:
-
-run
-
-    php artisan serve
+# Travel Booking Website
 
 
-## Authors
+         _   _              _   _                   _
+        | | | | ___ _   _  | |_| |__   ___ _ __ ___| |
+        | |_| |/ _ \ | | | | __| '_ \ / _ \ '__/ _ \ |
+        |  _  |  __/ |_| | | |_| | | |  __/ | |  __/_|
+        |_| |_|\___|\__, |  \__|_| |_|\___|_|  \___(_)
+                    |___/
 
-  - **Breksam Hassan Elsokkary** - (https://github.com/Breksam)
+        Lookin' at the source code huh?
+        Be sure to drop me a line! I'd love to chat,
+        whether it's about code, design, ducks,
+        gym, Basketball, or anything in between.
 
+        - Dominic
 
+       
+# Images
+![1](https://github.com/Demenico14/Travel-Website/assets/130894590/a79297f1-42d6-4630-8667-d8f79f2c1fb8)
+![2](https://github.com/Demenico14/Travel-Website/assets/130894590/a44f6651-138e-46f0-b71a-064e23c16e14)
+![3](https://github.com/Demenico14/Travel-Website/assets/130894590/b37816c1-fa36-4328-b030-92f9461d0366)
+![4](https://github.com/Demenico14/Travel-Website/assets/130894590/54a1f77f-d00f-4a8e-b6be-71f24a023557)
